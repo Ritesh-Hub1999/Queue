@@ -1,0 +1,90 @@
+https://practice.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
+
+Example 1:
+----------
+Input : 
+N = 5
+A[] = {-8, 2, 3, -6, 10}
+K = 2
+Output : 
+-8 0 -6 -6
+Explanation :
+First negative integer for each window of size k
+{-8, 2} = -8
+{2, 3} = 0 (does not contain a negative integer)
+{3, -6} = -6
+{-6, 10} = -6
+ 
+Example 2:
+----------
+Input : 
+N = 8
+A[] = {12, -1, -7, 8, -15, 30, 16, 28}
+K = 3
+Output :
+-1 -1 -7 -15 -15 0 
+
+Approch:
+-------
+Step 1-> create a double ended queue
+step 2-> first k size window ko process kro and
+        negative number ka index store karao deque mai.
+step 3-> Now we need to process aga wali window 
+         //removal logic 
+         for(0 -> k){
+         if(i - dq.front >= k)
+              dq.pop_front();
+              
+        // adition logic
+        if(arr[i]<0){
+          dq.push_back(i);
+          }
+          
+code:
+-----
+vector<long long> printFirstNegativeInteger(long long int A[],
+                                             long long int N, long long int K) {
+    
+    deque<long long int>dq;
+    vector<long long> ans;
+    
+    //process first window
+         for(int i=0; i<K; i++) {
+             if(A[i] < 0) {
+                 dq.push_back(i);
+             }
+         }
+         
+         //push ans for FIRST window
+         if(dq.size() > 0) {
+             ans.push_back(A[dq.front()]);
+         }
+         else
+         {
+             ans.push_back(0);
+         }
+         
+         //now process for remaining windows
+         for(int i = K; i<N; i++) {
+             //first pop out of window element
+             
+             
+             if(!dq.empty() && (i - dq.front())>=K ) {
+                 dq.pop_front();
+             }
+             
+             //then push current element
+             if(A[i] < 0)
+                dq.push_back(i);
+             
+            // put in ans
+            if(dq.size() > 0) {
+                 ans.push_back(A[dq.front()]);
+            }
+            else
+            {
+                ans.push_back(0);
+            }
+         }
+         return ans;
+ }
