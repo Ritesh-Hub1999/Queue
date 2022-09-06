@@ -1,0 +1,71 @@
+https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1
+
+Example 1:
+---------
+Input: A = "aabc"
+Output: "a#bb"
+Explanation: For every character first non
+repeating character is as follow-
+"a" - first non-repeating character is 'a'
+"aa" - no non-repeating character so '#'
+"aab" - first non-repeating character is 'b'
+"aabc" - first non-repeating character is 'b'
+
+Example 2:
+---------
+Input: A = "zz"
+Output: "z#"
+Explanation: For every character first non
+repeating character is as follow-
+"z" - first non-repeating character is 'z'
+"zz" - no non-repeating character so '#'
+
+Algo:
+-----
+step 1-> Ek character kitni baar aya hai uska count store krna hoga
+        so uska lia map use karenga
+step 2-> hama ek new new char cahiya jo new new char ata jai uska count
+         ko bhi bardhata jao and queue mai store karta jao
+step 3-> check q ka front repeating hai ky
+         q.front -> repeating hai tho pop kr do
+          |     \
+          |     if non repeating hai ans mai store kr lo
+          |      and break kr do loop
+     agr q.empty
+     ans mai push (#)
+     
+Expected Time Complexity: O(26 * n)
+Expected Space Complexity: O(26)
+     
+code:
+-----
+string FirstNonRepeating(string A){
+		    unordered_map<char,int>count;
+		    queue<char>q;
+		    string ans="";
+		    
+		    for(int i=0;i<A.length();i++){
+		        //first count store kr lo
+		        char ch=A[i];
+		        
+		        count[ch]++;
+		        //storing char in queue
+		        q.push(ch);
+		        
+		        while(!q.empty()){
+		            if(count[q.front()]>1){
+		                //repeating character
+		                q.pop();
+		            }
+		            else{
+		                //non repeating element h store kr lo
+		                ans.push_back(q.front());
+		                break;
+		            }
+		        }
+		        if(q.empty()){
+		            ans.push_back('#');
+		        }
+		    }
+		    return ans;
+		}
