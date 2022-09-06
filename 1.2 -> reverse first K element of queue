@@ -1,0 +1,60 @@
+https://practice.geeksforgeeks.org/problems/reverse-first-k-elements-of-queue/1
+
+Input:
+5 3
+1 2 3 4 5
+
+Output: 
+3 2 1 4 5
+
+Explanation: 
+After reversing the given
+input from the 3rd position the resultant
+output will be 3 2 1 4 5.
+
+Example 2:
+
+Input:
+4 4
+4 3 2 1
+
+Output: 
+1 2 3 4
+
+Explanation: 
+After reversing the given
+input from the 4th position the resultant
+output will be 1 2 3 4.
+
+Approch:
+--------
+step 1-> fetch first K element from queue and put in to stack
+step 2-> fetch element from stack and put it in queue
+step 3-> fetch first (n-k) element from q and push back to queue
+
+code:
+-----
+Queue<int> *modifyQueue(Queue *q, int n, int k) {
+    stack<int>s;
+    
+    //fetch first element from queue and put it in stack
+    for(int i=0;i<k;i++){
+        int ele=q.front();
+        s.push(ele);
+        q.pop();
+    }
+    
+    while(!s.empty()){
+        int ele=s.top();
+        q.push(ele);
+        q.pop();
+    }
+    
+    int i=k-n;
+    while(i--){
+        int ele=q.front();
+        q.push(ele);
+        q.pop();
+    }
+    return q;
+}
